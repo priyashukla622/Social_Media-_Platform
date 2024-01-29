@@ -1,0 +1,35 @@
+const createPost = async (req, res) => {
+    const { username } = req.body; // Assuming you use the user's email for identification
+    // const { title, content, description } = req.body;
+  
+    try {
+      // Check if the user exists
+      const existingUser = await userModel.findOne({username :username });
+      console.log(existingUser)
+      if (existingUser==null) {
+        // return res.status(404).json({ message: "User not found" });
+        console.log('User not found');
+        return res.status(404).json({ message: 'User not found'});
+      }
+      else{
+        // Create a new post
+      const newPost = {
+        title:req.body.title,
+        content: req.body.content,
+        description:req.body.description,
+        username:req.body.username,
+        // You may want to associate the post with the user, for example:
+        user: existingUser._id,
+      };
+      // Assuming you have a postModel with a create method
+      const createdPost = await postModel.create(newPost);
+  
+      res.status(201).json({ message: 'Post created successfully', post: createdPost });
+      }
+      
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+module.exports = {createPost};
