@@ -1,6 +1,6 @@
 const createPost = async (req, res) => {
-    const { username } = req.body; // Assuming you use the user's email for identification
-    // const { title, content, description } = req.body;
+    const { username } = req.body; 
+
   
     try {
       // Check if the user exists
@@ -18,10 +18,9 @@ const createPost = async (req, res) => {
         content: req.body.content,
         description:req.body.description,
         username:req.body.username,
-        // You may want to associate the post with the user, for example:
         user: existingUser._id,
       };
-      // Assuming you have a postModel with a create method
+      //you have a postModel with a create method
       const createdPost = await postModel.create(newPost);
   
       res.status(201).json({ message: 'Post created successfully', post: createdPost });

@@ -1,14 +1,10 @@
-// const { profileModel } = require("../models/user");
-
-// const { profileModel } = require("../models/user");
 
 const searchProfile = async (req, res) => {
     const username = req.body.username; 
   
     try {
-      //   console.log('Username:', username);
         
-        // Assuming userModel has a 'username' field
+        // userModel has a 'username' field
         const user = await profileModel.findOne({ username:username });
   
         if (!user) {
@@ -17,7 +13,6 @@ const searchProfile = async (req, res) => {
   
         console.log('User:', user);
   
-        // // Assuming postModel has a 'userId' field referencing User model
         const posts = await profileModel.findOne({username:username });
   
         console.log('Posts:', posts);

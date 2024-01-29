@@ -1,11 +1,8 @@
 
 const readPost = async (req, res) => {
-  const username = req.body.username; // Convert to lowercase for case-insensitive search
+  const username = req.body.username;
 
   try {
-    //   console.log('Username:', username);
-      
-      // Assuming userModel has a 'username' field
       const user = await userModel.findOne({ username:username });
 
       if (!user) {
@@ -14,7 +11,6 @@ const readPost = async (req, res) => {
 
       console.log('User:', user);
 
-      // // Assuming postModel has a 'userId' field referencing User model
       const posts = await postModel.findOne({username:username });
 
       console.log('Posts:', posts);
