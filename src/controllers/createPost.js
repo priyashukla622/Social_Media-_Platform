@@ -1,7 +1,7 @@
 const createPost = async (req, res) => {
     const { username } = req.body; 
 
-  
+    
     try {
       // Check if the user exists
       const existingUser = await userModel.findOne({username :username });

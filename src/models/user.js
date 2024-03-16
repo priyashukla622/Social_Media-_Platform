@@ -6,8 +6,9 @@ const UserSchema=mongoose.Schema({
     },
     password:{
         type:String,
-        require:true,
+        required:true, 
     },
+
     email:{
         type:String,
         require:true,
@@ -55,6 +56,7 @@ const ProfileSchema=mongoose.Schema({
     }
     
 })
+
 
 
 const PostSchema = new mongoose.Schema({

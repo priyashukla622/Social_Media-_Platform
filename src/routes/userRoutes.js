@@ -1,7 +1,8 @@
 
 const express = require('express');
+
 const { signup, login} = require('../controllers/userControllers');
-const {viewProfile} = require('../controllers/viewsProfile');
+const {createProfile} = require('../controllers/createProfile');
 const {updateProfile} = require('../controllers/updatesProfile');
 const {createPost} = require('../controllers/createPost');
 const {readPost } = require('../controllers/readsPost');
@@ -11,14 +12,14 @@ const {likePost } = require('../controllers/likePost');
 const { commentPost } = require('../controllers/comment');
 const { followPost } = require('../controllers/follow');
 const { searchProfile } = require('../controllers/searchsProfile');
+const authToken=require('../middle/middle')
 
 
 
 const userRouter = express.Router();
-
 userRouter.post('/signup', signup);
 userRouter.post('/login', login);
-userRouter.get('/viewProfile', viewProfile);
+userRouter.post('/createProfile',authToken,createProfile);
 userRouter.put('/updateProfile', updateProfile);
 userRouter.post('/createPost', createPost);
 userRouter.get('/readPost', readPost);
