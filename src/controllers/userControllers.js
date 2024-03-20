@@ -133,10 +133,10 @@ const {userModel,profileModel,postModel} = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const SECRET_KEY = "NOTESAPI";
+// const SECRET_KEY = "NOTESAPI";
 
-const signup = async (req, res) => {
-  const {email,password,username } = req.body;
+const signup=async(req,res)=>{
+  const {email,password,username}=req.body;
   if(!email ||!password){
     return res.status(400).json({'error':"email and password are required"})
   }
@@ -156,9 +156,6 @@ const signup = async (req, res) => {
   return res.status(400).json({error: "Invalid username format"});
 }
 
-  
-
-
   try {
     const existingUser=await userModel.findOne({email:email});
     console.log(existingUser)
@@ -172,13 +169,14 @@ const signup = async (req, res) => {
       username: username,
     });
     console.log(result)
-    const token = jwt.sign({ email: result.email, id: result._id }, SECRET_KEY);
-    res.status(201).json({ user: result, token: token });
+    // const token = jwt.sign({ email: result.email, id: result._id },process.env.SECRET_KEY);
+   res.status(201).json({user:result});
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
 
 const login = async (req, res) => {
   const { email, password } = req.body; 
@@ -194,13 +192,13 @@ const login = async (req, res) => {
     }
     const token = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
-      SECRET_KEY
+    process.env.SECRET_KEY
     );
     res.status(200).json({ user: existingUser, token: token });
   } catch (error) {
     console.log(error)
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({message:"Something went wrong" });
   }
 };
-
-module.exports = { login, signup};
+ 
+module.exports={login,signup};

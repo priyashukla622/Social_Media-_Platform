@@ -33,8 +33,14 @@ const ProfileSchema=mongoose.Schema({
     },
     contect:{
         type:Number,
-        require:true
-
+        require:true,
+        validate: {
+            validator: function(contect) {
+                const cleanNumber = contect.replace(/\D/g, '');
+                return cleanNumber.length === 10;
+            },
+            message: "Phone number must be exactly 10 digits long and contain only numbers."
+        }
     },
     hobby:{
         type:String,
@@ -77,6 +83,10 @@ const PostSchema = new mongoose.Schema({
         require:true,
         
 
+    },
+    email:{
+        type:String,
+        require:true,
     },
     like:{
         type:Array,

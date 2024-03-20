@@ -1,6 +1,23 @@
+
 const likePost = async (req, res) => {
+    const email = req.body.email; 
+
     try {
-        const post = await postModel.findById(req.params._id);
+        // Check if the user exists
+        const existingUser = await userModel.findOne({ email });
+
+        if (!existingUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const user = await userModel.findById(req.body.userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // If user exists, then find the post
+        const post = await postModel.findOne(req.params._id);
 
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
@@ -18,8 +35,8 @@ const likePost = async (req, res) => {
         res.status(500).json({ error: 'Server Error' });
     }
 };
-
 module.exports = { likePost };
+
 
 
 

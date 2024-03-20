@@ -20,15 +20,15 @@ const userRouter = express.Router();
 userRouter.post('/signup', signup);
 userRouter.post('/login', login);
 userRouter.post('/createProfile',authToken,createProfile);
-userRouter.put('/updateProfile', updateProfile);
-userRouter.post('/createPost', createPost);
+userRouter.put('/updateProfile',authToken, updateProfile);
+userRouter.post('/createPost',authToken, createPost);
 userRouter.get('/readPost', readPost);
-userRouter.put('/updatePost', updatePost);
-userRouter.delete('/deletePost', deletePost);
-userRouter.post('/likePost/:_id', likePost);
-userRouter.post('/commentPost/:_id', commentPost);
-userRouter.post('/followPost/:_id', followPost);
-userRouter.get('/searchProfile', searchProfile);
+userRouter.put('/updatePost',authToken, updatePost);
+userRouter.delete('/deletePost',authToken, deletePost);
+userRouter.post('/likePost',authToken, likePost);
+userRouter.post('/commentPost',authToken, commentPost);
+userRouter.post('/followPost',authToken,followPost);
+userRouter.get('/searchProfile',searchProfile);
 
 
 module.exports = userRouter;

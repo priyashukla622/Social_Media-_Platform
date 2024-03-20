@@ -25,3 +25,8 @@ const readPost = async (req, res) => {
 };
 module.exports = { readPost };
 
+
+
+
+
+

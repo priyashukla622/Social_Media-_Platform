@@ -1,10 +1,8 @@
 const createPost = async (req, res) => {
-    const { username } = req.body; 
-
-    
+    const { email } = req.body; 
     try {
       // Check if the user exists
-      const existingUser = await userModel.findOne({username :username });
+      const existingUser = await userModel.findOne({email :email });
       console.log(existingUser)
       if (existingUser==null) {
         // return res.status(404).json({ message: "User not found" });
@@ -14,10 +12,12 @@ const createPost = async (req, res) => {
       else{
         // Create a new post
       const newPost = {
+
         title:req.body.title,
         content: req.body.content,
         description:req.body.description,
         username:req.body.username,
+        email:req.body.email,
         user: existingUser._id,
       };
       //you have a postModel with a create method
