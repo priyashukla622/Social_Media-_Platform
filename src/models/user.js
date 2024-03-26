@@ -17,6 +17,7 @@ const UserSchema=mongoose.Schema({
 })
 
 
+
 const ProfileSchema=mongoose.Schema({
     username:{
         type:String,
@@ -31,16 +32,10 @@ const ProfileSchema=mongoose.Schema({
         require:true,
 
     },
-    contect:{
+    contact:{
         type:Number,
         require:true,
-        validate: {
-            validator: function(contect) {
-                const cleanNumber = contect.replace(/\D/g, '');
-                return cleanNumber.length === 10;
-            },
-            message: "Phone number must be exactly 10 digits long and contain only numbers."
-        }
+
     },
     hobby:{
         type:String,

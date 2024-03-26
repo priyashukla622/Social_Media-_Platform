@@ -16,6 +16,7 @@ const authToken=require('../middle/middle')
 
 
 
+
 const userRouter = express.Router();
 userRouter.post('/signup', signup);
 userRouter.post('/login', login);
@@ -25,9 +26,9 @@ userRouter.post('/createPost',authToken, createPost);
 userRouter.get('/readPost', readPost);
 userRouter.put('/updatePost',authToken, updatePost);
 userRouter.delete('/deletePost',authToken, deletePost);
-userRouter.post('/likePost',authToken, likePost);
-userRouter.post('/commentPost',authToken, commentPost);
-userRouter.post('/followPost',authToken,followPost);
+userRouter.post('/likePost/:_id',authToken, likePost);
+userRouter.post('/commentPost/:_id',authToken, commentPost);
+userRouter.post('/followPost/:_id',authToken,followPost);
 userRouter.get('/searchProfile',searchProfile);
 
 

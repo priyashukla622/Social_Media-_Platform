@@ -1,6 +1,6 @@
 const updateProfile = async (req, res) => {
     const { email } = req.body; 
-    const { bio,contect } = req.body; 
+    const { bio,contact,gender ,username} = req.body; 
   
     try {
       
@@ -15,7 +15,9 @@ const updateProfile = async (req, res) => {
       }
   
       existingProfile.bio = bio;
-      existingProfile.contect = contect;
+      existingProfile.contact = contact;
+      existingProfile.gender = gender;
+      existingProfile.username = username;
   
       await existingProfile.save();
   

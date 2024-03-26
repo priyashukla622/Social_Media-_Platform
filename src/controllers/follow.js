@@ -1,129 +1,37 @@
 
-// const followPost = async (req, res) => {
-//     // const userToFollowId = req.params._id;
-//     // const followerId = req.body.userId;
-//     // const email = req.body.email; 
-//     try {
-//         const userToFollowId = req.params._id;
-//         const followerId = req.body.userId;
+const { profileModel } = require("../models/user");
 
-//         // const existingUser = await userModel.findOne({ email });
+const followPost = async(req, res) => {
+    if (req.body.userId == req.params._id) {
+        return res.status(201).json({message:"you cannot follow yourself"});
+    }else{
+            try {
+                const user = await profileModel.findById(req.params._id);
+                const currentUser = await profileModel.findById(req.body.userId);
 
-//         // if (!existingUser) {
-//         //     return res.status(404).json({ message: "User not found" });
-//         // }
-//         const userToFollow = await profileModel.findOne({userToFollowId});
-//         const follower = await profileModel.findById(followerId);
-
-//         if (!userToFollow || !follower) {
-//             return res.status(404).json({ message: 'User profile not found' });
-//         }
-
-//         if (!userToFollow.follow.includes(followerId)) {
-//             // If the user is not aling, add them to the 'follow' arrayready follow
-//             await userToFollow.updateOne({ $push: { follow: followerId } });
-//             await follower.updateOne({ $push: { following: userToFollowId } });
-//             res.status(201).json({ message: 'User has follow ' });
-//         } else {
-//             // If the user is already following, remove them from the 'follow' array
-//             await userToFollow.updateOne({ $pull: { follow: followerId } });
-//             await follower.updateOne({ $pull: { following: userToFollowId } });
-//             res.status(200).json({ message: 'User has unfollowed the profile' });
-//         }
-//     } catch (error) {
-//         console.error(error.message);
-//         res.status(500).json({ error: 'Server Error' });
-//     }
-// };
-
-// module.exports = { followPost };
-
-
-
-
-
-
-
-
-
-// const followPost = async (req, res) => {
-//     const userToFollowId = req.params._id;
-//     const followerId = req.body.userId;
-//     const email = req.body.email; 
-
-//     try {
-//         const existingUser = await userModel.findOne({ email });
-
-//         if (!existingUser) {
-//             return res.status(404).json({ message: "User not found" });
-//         }
-
-//         const userToFollow = await profileModel.findOne({userToFollowId});
-//         const follower = await profileModel.findById(follower: followerId );
-
-
-//         if (!userToFollow || !follower) {
-//             return res.status(404).json({ message: 'User profile not found' });
-//         }
-
-//         if (!userToFollow.follow.includes(followerId)) {
-//             await userToFollow.updateOne({ $push: { follow: followerId } });
-//             await follower.updateOne({ $push: { following: userToFollowId } });
-//             return res.status(201).json({ message: 'User has followed the profile' });
-//         } else {
-//             await userToFollow.updateOne({ $pull: { follow: followerId } });
-//             await follower.updateOne({ $pull: { following: userToFollowId } });
-//             return res.status(200).json({ message: 'User has unfollowed the profile' });
-//         }
-//     } catch (error) {
-//         console.error(error.message);
-//         return res.status(500).json({ error: 'Server Error' });
-//     }
-// };
-
-// module.exports = { followPost };
-
-
-
-
-
-const followPost = async (req, res) => {
-    // const userToFollowId = req.params._id;
-    // const followerId = req.body.userId;
-    const email = req.body.email; 
-    try {
-        const userToFollowId = req.params._id;
-        const followerId = req.body.userId;
-
-        const existingUser = await userModel.findOne({ email });
-
-        if (!existingUser) {
-            return res.status(404).json({ message: "User not found" });
+                if (!user.follow.includes(req.body.userId)) {
+                    await user.updateOne({ $push: { follow: req.body.userId } });
+                    await currentUser.updateOne({ $push: { following: req.params._id } });
+                    return res.status(201).json({ message: "you have to followed this user" });
+                } else {
+                    // return res.status(404).json({ message: "You already followed " });
+                    await user.updateOne({ $pull: { follow: req.body.userId} });
+                    await currentUser .updateOne({ $pull: { following: req.params._id } });
+                    res.status(200).json({ message: 'User has unfollowed the profile' });
+                }
+            } catch (error) {
+                console.error(error);
+                return res.status(404).json({ message: "Something went wrong" });
+            }
         }
-        const userToFollow = await profileModel.findOne({userToFollowId});
-        const follower = await profileModel.findById(followerId);
-
-        if (!userToFollow || !follower) {
-            return res.status(404).json({ message: 'User profile not found' });
-        }
-
-        if (!userToFollow.follow.includes(followerId)) {
-            // If the user is not aling, add them to the 'follow' arrayready follow
-            await userToFollow.updateOne({ $push: { follow: followerId } });
-            await follower.updateOne({ $push: { following: userToFollowId } });
-            res.status(201).json({ message: 'User has follow ' });
-        } else {
-            // If the user is already following, remove them from the 'follow' array
-            await userToFollow.updateOne({ $pull: { follow: followerId } });
-            await follower.updateOne({ $pull: { following: userToFollowId } });
-            res.status(200).json({ message: 'User has unfollowed the profile' });
-        }
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({ error: 'Server Error' });
     }
-};
-
 module.exports = { followPost };
+
+
+
+
+
+
+
 
 
