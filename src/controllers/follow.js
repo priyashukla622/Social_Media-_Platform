@@ -8,7 +8,7 @@ const followPost = async(req, res) => {
             try {
                 const user = await profileModel.findById(req.params._id);
                 const currentUser = await profileModel.findById(req.body.userId);
-
+                
                 if (!user.follow.includes(req.body.userId)) {
                     await user.updateOne({ $push: { follow: req.body.userId } });
                     await currentUser.updateOne({ $push: { following: req.params._id } });
@@ -25,6 +25,7 @@ const followPost = async(req, res) => {
             }
         }
     }
+
 module.exports = { followPost };
 
 
