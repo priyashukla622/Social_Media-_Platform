@@ -1,12 +1,14 @@
+
 const express=require("express");
 const app = express();
-require('dotenv').config({path:'./.env'})
+require('dotenv').config({path:'./src/.env'})
 
 const userRouter = require("./src/routes/userRoutes");
 const mongoose = require("mongoose");
-// const { parsePath } = require("react-router-dom");
+
 const port = process.env.port
 app.use(express.json());
+
 
 app.use("/users", userRouter);
 
