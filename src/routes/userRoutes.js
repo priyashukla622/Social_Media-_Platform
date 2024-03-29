@@ -30,6 +30,4 @@ userRouter.post('/likePost/:_id',authToken, likePost);
 userRouter.post('/commentPost/:_id',authToken, commentPost);
 userRouter.post('/followPost/:_id',authToken,followPost);
 userRouter.get('/searchProfile',searchProfile);
-
-
 module.exports = userRouter;

@@ -1,33 +1,30 @@
 
+const Model = require("../models/user");
+
 const readPost = async (req, res) => {
-  const username = req.body.username;
   try {
-    const user = await userModel.findOne({ username:username });
-    
-
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
-      }
-
-      console.log('User:', user);
-
-      const posts = await postModel.findOne({username:username });
-
-      console.log('Posts:', posts);
-
+    let posts;
+    const email = req.query.email;
+    if (email) {
+      posts = await Model.postModel.find({ email: email });
       if (posts.length === 0) {
-          return res.status(404).json({ message: 'No posts found for the user' });
+        return res.status(404).json({ message: "No posts found for the email provided" });
       }
-      res.status(200).json({ message: 'Posts found for the user', posts });
+      return res.status(200).json({ message: "Posts found successfully", posts: posts });
+    } 
+    else {
+      posts = await Model.postModel.find({});
+      if (posts) {
+        return res.status(200).json({ message: "All posts found successfully", posts: posts });
+       
+      }
+    }
+
   } catch (error) {
-      console.error(error.message);
-      res.status(500).json({ error: 'Server Error' });
+    console.error("Error:", error);
+    return res.status(500).json({ error: "Server Error" });
   }
 };
+
 module.exports = { readPost };
-
-
-
-
-
 
