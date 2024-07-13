@@ -3,7 +3,7 @@ const { profileModel } = require("../models/user");
 const mongoose = require('mongoose');
 
 const followPost = async (req, res) => {
-    const userId = req.query._id;
+    let userId = req.query._id;
     const currentUserId = req.body.userId;
 
     if (userId === currentUserId) {
