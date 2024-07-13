@@ -11,7 +11,7 @@ const likePost = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        const postId = req.query._id;
+        let postId = req.query._id;
         console.log("Post ID:", postId);
 
         const post = await postModel.findById(postId);
