@@ -4,7 +4,6 @@ const athunticateToken=(req,res,next)=>{
     
     if(!token){
         return res.status(401).json({error:"unathorized:token not provided"})
-
     }
     jwt.verify(token,process.env.SECRET_KEY,(err,user)=>{
         if(err){

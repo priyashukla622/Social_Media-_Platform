@@ -15,7 +15,6 @@ const readPost = async (req, res) => {
       posts = await postModel.find({});
       if (posts) {
         return res.status(200).json({ message: "All posts found successfully", posts: posts });
-       
       }
     }
 
@@ -26,4 +25,12 @@ const readPost = async (req, res) => {
 };
 
 module.exports = { readPost };
+
+
+
+
+
+
+
+
 

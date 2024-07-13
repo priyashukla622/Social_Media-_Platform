@@ -7,6 +7,7 @@ const userRouter = require("./src/routes/userRoutes");
 const mongoose = require("mongoose");
 
 const port = process.env.port
+console.log(port)
 app.use(express.json());
 
 

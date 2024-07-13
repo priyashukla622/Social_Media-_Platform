@@ -1,4 +1,4 @@
-
+const {postModel}=require("../models/user")
 const commentPost = async (req, res) => {
     const email = req.body.email; 
     try {
@@ -8,7 +8,7 @@ const commentPost = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        const post = await postModel.findById(req.params._id);
+        const post = await postModel.findById(req.query._id);
 
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });

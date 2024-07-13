@@ -25,9 +25,10 @@ userRouter.put('/updateProfile',authToken, updateProfile);
 userRouter.post('/createPost',authToken, createPost);
 userRouter.get('/readPost', readPost);
 userRouter.put('/updatePost',authToken, updatePost);
+
 userRouter.delete('/deletePost',authToken, deletePost);
-userRouter.post('/likePost/:_id',authToken, likePost);
-userRouter.post('/commentPost/:_id',authToken, commentPost);
-userRouter.post('/followPost/:_id',authToken,followPost);
+userRouter.post('/likePost',authToken,likePost);
+userRouter.post('/commentPost',authToken, commentPost);
+userRouter.post('/followPost',authToken,followPost);
 userRouter.get('/searchProfile',searchProfile);
 module.exports = userRouter;

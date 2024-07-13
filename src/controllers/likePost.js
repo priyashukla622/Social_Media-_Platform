@@ -1,5 +1,8 @@
 
+
+
 const { postModel } = require("../models/user");
+
 const likePost = async (req, res) => {
     try {
         const user = await postModel.findById(req.body.userId);
@@ -7,11 +10,15 @@ const likePost = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        const post = await postModel.findById(req.params._id);
+
+        const postId = req.query._id;
+        console.log("Post ID:", postId);
+
+        const post = await postModel.findById(postId);
         console.log("Post:", post);
 
         if (!post) {
-            console.log("Post not found with ID:", req.params._id);
+            console.log("Post not found with ID:", postId);
             return res.status(404).json({ message: 'Post not found' });
         }
 
@@ -23,17 +30,12 @@ const likePost = async (req, res) => {
             return res.status(200).json({ message: 'User has unliked the post' });
         }
     } catch (error) {
-        console.error(error.message);
+        console.error("Error in likePost:", error.message);
         return res.status(500).json({ error: 'Server Error' });
     }
 };
 
 module.exports = { likePost };
-
-
-
-
-
 
 
 

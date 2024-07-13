@@ -1,38 +1,43 @@
 
 const { profileModel } = require("../models/user");
+const mongoose = require('mongoose');
 
-const followPost = async(req, res) => {
-    if (req.body.userId == req.params._id) {
-        return res.status(201).json({message:"you cannot follow yourself"});
-    }else{
-            try {
-                const user = await profileModel.findById(req.params._id);
-                const currentUser = await profileModel.findById(req.body.userId);
-                
-                if (!user.follow.includes(req.body.userId)) {
-                    await user.updateOne({ $push: { follow: req.body.userId } });
-                    await currentUser.updateOne({ $push: { following: req.params._id } });
-                    return res.status(201).json({ message: "you have to followed this user" });
-                } else {
-                    // return res.status(404).json({ message: "You already followed " });
-                    await user.updateOne({ $pull: { follow: req.body.userId} });
-                    await currentUser .updateOne({ $pull: { following: req.params._id } });
-                    res.status(200).json({ message: 'User has unfollowed the profile' });
-                }
-            } catch (error) {
-                console.error(error);
-                return res.status(404).json({ message: "Something went wrong" });
-            }
-        }
+const followPost = async (req, res) => {
+    const userId = req.query._id;
+    const currentUserId = req.body.userId;
+
+    if (userId === currentUserId) {
+        return res.status(400).json({ message: "You cannot follow yourself" });
     }
 
+    try {
+        console.log("User ID:", userId);
+        console.log("Current User ID:", currentUserId);
+
+        const user = await profileModel.findById(userId);
+        const currentUser = await profileModel.findById(currentUserId);
+        console.log("User:", user);
+        console.log("Current User:", currentUser);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (!currentUser) {
+            return res.status(404).json({ message: "Current user not found" });
+        }
+
+        if (user.follow.includes(currentUserId)) {
+            return res.status(400).json({ message: "You cannot follow again" });
+        } else {
+            await user.updateOne({ $push: { follow: currentUserId } });
+            await currentUser.updateOne({ $push: { following: userId } });
+            return res.status(201).json({ message: "You have followed this user" });
+        }
+    } catch (error) {
+        console.error("Error in followPost:", error);
+        return res.status(500).json({ message: "Something went wrong", error: error.message });
+    }
+};
+
 module.exports = { followPost };
-
-
-
-
-
-
-
-
-
